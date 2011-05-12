@@ -31,12 +31,16 @@ class List < ActiveRecord::Base
   end
 
   def channel_name
-    @channel_name ||= "list-#{Rails.env}-#{self.token}"
+    @channel_name ||= "list-#{Rails.env}-#{strip_for_channel_name(self.token)}"
   end
 
   private
 
   def create_token
-    self.token = ActiveSupport::SecureRandom.base64(8).gsub("/","").gsub("+","").gsub(/=+$/,"")
+    self.token = strip_for_channel_name(ActiveSupport::SecureRandom.base64(8))
+  end
+  
+  def strip_for_channel_name(str)
+    str.gsub("/","").gsub("+","").gsub(/=+$/,"")
   end
 end
