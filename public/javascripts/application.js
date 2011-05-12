@@ -126,7 +126,9 @@
     events: {
       'keypress #new-todo': 'createOnEnter',
       'keyup #new-todo':    'showTooltip',
-      'click .todo-clear a': 'clearCompleted'
+      'click .todo-clear a': 'clearCompleted',
+      'click .title p input': 'selectShareUrl',
+      'dblclick .title p input': 'selectShareUrl'
     },
     
     initialize: function() {
@@ -197,6 +199,10 @@
       };
       
       this.tooltipTimeout = _.delay(show, 1000);
+    },
+    
+    selectShareUrl: function(e) {
+      $(e.currentTarget).select();
     }
   });
   

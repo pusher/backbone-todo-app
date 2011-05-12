@@ -74,11 +74,12 @@ html {
         background: #666;
         color: #fff;
         margin: 0.75em 0 0;
-        padding: 0.5em;
+        padding: 1em;
         -webkit-border-radius: 0.5em;
         -moz-border-radius: 0.5em;
         border-radius: 0.5em;
         text-align: center;
+        cursor: text;
       }
 
 #todoapp .content {
