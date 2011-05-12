@@ -221,8 +221,8 @@
       if (this.tooltipTimeout) clearTimeout(this.tooltipTimeout);
 
       this.tooltipTimeout = _.delay(function() {
-        tooltip.fadeIn(400);
-        self.tooltipTimeout = _.delay(self.hideTooltip, 2800);
+        tooltip.fadeIn(300);
+        self.tooltipTimeout = _.delay(self.hideTooltip, 2400);
       }, 400);
     },
     
@@ -230,7 +230,7 @@
       var tooltip = this.$('.ui-tooltip-top');
       if (this.tooltipTimeout) clearTimeout(this.tooltipTimeout);
 
-      tooltip.fadeOut(400);
+      tooltip.fadeOut(300);
     },
 
     selectShareUrl: function(e) {

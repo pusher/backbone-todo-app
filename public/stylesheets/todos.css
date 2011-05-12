@@ -241,24 +241,30 @@ html {
         color: #777777;
       }
       #todo-stats .todo-clear a:hover {
-        color: #336699;
+        color: #107BD6;
       }
 
 #instructions {
   width: 520px;
   margin: 10px auto;
   color: #777777;
-  text-shadow: rgba(255, 255, 255, 0.8) 0 1px 0;
+  text-shadow: rgba(255, 255, 255, 0.8) 0 1px 1px;
   text-align: center;
   border-top: 1px solid #d0d0d0;
 }
-  #instructions ul {
+  #instructions p {
     display: block;
     border-top: 1px solid #fff;
     padding: 1em 0 0 0;
   }
   #instructions a {
     color: #336699;
+    text-decoration: underline;
+  }
+  
+  #instructions a:hover, #instructions a:focus {
+    color: #107BD6;
+    text-decoration: none;
   }
 
 #credits {
@@ -266,7 +272,7 @@ html {
   width: 520px;
   margin: 1em auto;
   color: #999;
-  text-shadow: rgba(255, 255, 255, 0.8) 0 1px 0;
+  text-shadow: rgba(255, 255, 255, 0.8) 0 1px 1px;
   text-align: center;
 }
   #credits p {
@@ -291,6 +297,12 @@ html {
   
   #credits a {
     color: #888;
+    text-decoration: underline;
+  }
+  
+  #credits a:hover, #credits a:focus {
+    color: #444;
+    text-decoration: none;
   }
 
 
