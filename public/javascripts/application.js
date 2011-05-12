@@ -242,30 +242,6 @@
 
   var pusher = new Pusher('511a5abb7486107ce643');
   var channel = pusher.subscribe(window.app.list_channel);
-
-  channel.bind('item-created', function(data) {
-    // Only add if not exists:
-    app.Todos.add(new app.Todo(data));
-  });
-
-  channel.bind('item-updated', function(data) {
-    var model = app.Todos.get(data.id);
-
-    if (!model) {
-      // Add it if it doesn't exist:
-      app.Todos.add(new app.Todo(data));
-    } else {
-      // Otherwise, change it:
-      model.set(data);
-    }
-  });
-
-  channel.bind('item-destroyed', function(data) {
-    var model = app.Todos.get(data.id);
-    // If we don't have it, no need to try and remove it.
-    if (!model) return;
-
-    app.Todos.remove(model);
-    model.view.remove();
-  });
+  
+  Backpusher(channel, app.Todos);
 });

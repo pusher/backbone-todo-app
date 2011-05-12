@@ -11,7 +11,7 @@ class ItemsController < ApplicationController
       :isdone => params[:isdone]
     })
 
-    Pusher[@list.channel_name].trigger('item-created', item.attributes)
+    Pusher[@list.channel_name].trigger('created', item.attributes)
     render :json => item
   end
 
@@ -27,7 +27,7 @@ class ItemsController < ApplicationController
       :isdone => params[:isdone]
     })
 
-    Pusher[@list.channel_name].trigger('item-updated', item.attributes)
+    Pusher[@list.channel_name].trigger('updated', item.attributes)
 
     render :json => item
   end
@@ -35,7 +35,7 @@ class ItemsController < ApplicationController
   def destroy
     @list.items.find(params[:id]).destroy
 
-    Pusher[@list.channel_name].trigger('item-destroyed', {:id => params[:id]})
+    Pusher[@list.channel_name].trigger('destroyed', {:id => params[:id]})
 
     render :json => {}
   end
