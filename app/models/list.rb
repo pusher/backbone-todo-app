@@ -37,6 +37,6 @@ class List < ActiveRecord::Base
   private
 
   def create_token
-    self.token = ActiveSupport::SecureRandom.base64(8).gsub("/","_").gsub(/=+$/,"")
+    self.token = ActiveSupport::SecureRandom.base64(8).gsub("/","").gsub("+","").gsub(/=+$/,"")
   end
 end
