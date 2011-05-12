@@ -240,7 +240,6 @@
   });
 
   channel.bind('item-updated', function(data) {
-    console.log('item-updated');
     var model = app.Todos.get(data.id);
 
     if (!model) {
@@ -258,6 +257,6 @@
     if (!model) return;
 
     app.Todos.remove(model);
-    model.view.remove()
+    model.view.remove();
   });
 });
