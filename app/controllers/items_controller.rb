@@ -36,7 +36,6 @@ class ItemsController < ApplicationController
 
   private
   def get_list
-    logger.debug params, request
     @list = List.find_by_token(params[:token])
   end
 end
