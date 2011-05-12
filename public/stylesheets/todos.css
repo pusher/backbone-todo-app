@@ -240,6 +240,9 @@ html {
   text-shadow: rgba(255, 255, 255, 0.8) 0 1px 0;
   text-align: center;
 }
+  #credits p {
+    margin-bottom: 1.3em;
+  }
   #credits a {
     color: #888;
   }
