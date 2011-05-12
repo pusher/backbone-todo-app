@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  shortdesc: MyText
+  longdesc: MyText
+  isdone: false
+
+two:
+  shortdesc: MyText
+  longdesc: MyText
+  isdone: false

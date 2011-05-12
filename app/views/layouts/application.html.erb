@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Todos</title>
+  <%= stylesheet_link_tag :all %>
+  <%= javascript_include_tag [
+    'underscore.js',
+    'jquery.js',
+    'backbone.js',
+    'pusher.js',
+    'application.js'
+  ] %>
+  <%= csrf_meta_tag %>
+</head>
+<body>
+  <div id="todoapp">
+    <%= yield %>
+  </div>
+</body>
+</html>
