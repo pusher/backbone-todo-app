@@ -183,7 +183,7 @@ html {
     cursor: pointer;
     width: 24px;
     height: 24px;
-    background: url(/images/destroy.png) no-repeat 0 -25px;
+    background: url(/images/delete.png) no-repeat 0 -25px;
   }
     #todo-list .todo:hover .todo-destroy {
       display: block;
