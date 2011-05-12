@@ -7,7 +7,7 @@
 <div class="title">
   <h1>To-do&apos;s</h1>
   <p>
-    You can share this todo-list with the following url:
+    You can collaborate in realtime on this to-do list by sharing this url:
     <br />
     <input type="text" readonly="readonly" value="<%= show_list_path(:token => @list.token, :only_path => false) %>"/>
   </p>
@@ -15,7 +15,7 @@
 <div class="content">
   <div id="create-todo">
     <input id="new-todo" placeholder="What needs to be done?" type="text" />
-    <span class="ui-tooltip-top" style="display:none;">Press Enter to save this task</span>
+    <span class="ui-tooltip-top">Press Enter to save this task</span>
   </div>
   <div id="todos">
     <ul id="todo-list"></ul>
@@ -25,10 +25,11 @@
 
 
 <script type="text/template" id="item-template">
-  <div id="todo-item-<%%= id %>"class="todo <%%= isdone ? 'done' : '' %>">
+  <div id="todo-item-<%%= id %>" class="todo <%%= isdone ? 'done' : '' %>">
     <div class="display">
-      <input class="check" type="checkbox" <%%= isdone ? 'checked="checked"' : '' %> />
-      <div class="todo-content"></div>
+      <input class="check" type="checkbox" name="todo-item-<%%= id %>-check" id="todo-item-<%%= id %>-check" <%%= isdone ? 'checked="checked"' : '' %> />
+      <label class="todo-content" for="todo-item-<%%= id %>-check"></label>
+      <span class="todo-edit"></span>
       <span class="todo-destroy"></span>
     </div>
     <div class="edit">

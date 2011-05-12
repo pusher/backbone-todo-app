@@ -80,7 +80,7 @@
 
     events: {
       'click .check':               'toggleDone',
-      'dblclick div.todo-content':  'edit',
+      'click span.todo-edit':       'edit',
       'click span.todo-destroy':    'clear',
       'keypress .todo-input':       'updateOnEnter'
     },
@@ -102,9 +102,9 @@
     setContent: function() {
       var shortdesc = this.model.get('shortdesc');
       this.$('.todo-content').text(shortdesc);
-      this.input = this.$('.todo-input');
-      this.input.bind('blur', this.close);
-      this.input.val(shortdesc);
+      this.edit_input = this.$('.todo-input');
+      this.edit_input.bind('blur', this.close);
+      this.edit_input.val(shortdesc);
     },
 
     toggleDone: function() {
@@ -113,12 +113,12 @@
 
     edit: function() {
       $(this.el).addClass('editing');
-      this.input.focus();
+      this.edit_input.focus();
     },
 
     close: function() {
       this.model.save({
-        shortdesc: this.input.val()
+        shortdesc: this.edit_input.val(),
       });
       $(this.el).removeClass('editing');
     },
@@ -143,16 +143,19 @@
 
     events: {
       'keypress #new-todo': 'createOnEnter',
-      'keyup #new-todo':    'showTooltip',
+      'focus #new-todo':    'showTooltip',
+      'blur #new-todo':    'hideTooltip',
       'click .todo-clear a': 'clearCompleted',
       'click .title p input': 'selectShareUrl',
       'dblclick .title p input': 'selectShareUrl'
     },
 
     initialize: function() {
-      _.bindAll(this, 'addOne', 'removeOne', 'addAll', 'render');
+      _.bindAll(this, 'addOne', 'removeOne', 'addAll', 'render', 'showTooltip', 'hideTooltip');
 
       this.input = this.$('#new-todo');
+
+      this.$('.ui-tooltip-top').hide();
 
       app.Todos.bind('add', this.addOne);
       app.Todos.bind('remove', this.removeOne);
@@ -197,7 +200,10 @@
       if (e.keyCode != 13) return;
 
       app.Todos.create(this.newAttributes());
-      this.input.val('');
+      this.input.val('Adding...').addClass('working');
+      _.delay(function(el) {
+        if (el.val() == 'Adding...') el.val('').blur().removeClass('working');
+      }, 1000, this.input);
     },
 
     clearCompleted: function() {
@@ -210,18 +216,21 @@
 
     showTooltip: function(e) {
       var tooltip = this.$('.ui-tooltip-top');
-      var val = this.input.val();
-
-      tooltip.fadeOut();
-
+      var self = this;
+      
       if (this.tooltipTimeout) clearTimeout(this.tooltipTimeout);
-      if (val == '' || val == this.input.attr('placeholder')) return;
 
-      var show = function() {
-        tooltip.show().fadeIn();
-      };
+      this.tooltipTimeout = _.delay(function() {
+        tooltip.fadeIn(400);
+        self.tooltipTimeout = _.delay(self.hideTooltip, 2800);
+      }, 400);
+    },
+    
+    hideTooltip: function() {
+      var tooltip = this.$('.ui-tooltip-top');
+      if (this.tooltipTimeout) clearTimeout(this.tooltipTimeout);
 
-      this.tooltipTimeout = _.delay(show, 1000);
+      tooltip.fadeOut(400);
     },
 
     selectShareUrl: function(e) {
