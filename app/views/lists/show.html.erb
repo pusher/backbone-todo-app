@@ -2,6 +2,7 @@
   if (!window.app) var app = window.app = {};
   
   window.app.list_path = "<%= show_list_path(:token => @list.token) %>";
+  window.app.list_channel = "<%= @list.channel_name %>"
 </script>
 <div class="title">
   <h1>Todos</h1>
@@ -23,7 +24,7 @@
 </div>
 
 <script type="text/template" id="item-template">
-  <div class="todo <%%= isdone ? 'done' : '' %>">
+  <div id="todo-item-<%%= id %>"class="todo <%%= isdone ? 'done' : '' %>">
     <div class="display">
       <input class="check" type="checkbox" <%%= isdone ? 'checked="checked"' : '' %> />
       <div class="todo-content"></div>
