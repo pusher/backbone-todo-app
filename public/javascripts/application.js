@@ -252,9 +252,11 @@
     var title = document.title;
     var matches = title.match(/\[(\d+) (\w+)\]/);
 
+    console.log(matches);
+
     if (matches && matches[2] == 'new') {
       var count = parseInt(matches[1], 10);
-      document.title = 'Todos [' + (count++) + 'new]';
+      document.title = 'Todos [' + (++count) + ' new]';
     } else {
       document.title = 'Todos [1 new]';
     }
@@ -266,7 +268,7 @@
 
     if (matches && matches[2] == 'updated') {
       var count = parseInt(matches[1], 10);
-      document.title = 'Todos [' + (count++) + ' update]';
+      document.title = 'Todos [' + (++count) + ' updated]';
     } else {
       document.title = 'Todos [1 updated]';
     }
@@ -276,9 +278,9 @@
     var title = document.title;
     var matches = title.match(/\[(\d+) (\w+)\]/);
 
-    if (matches && matches[2] == 'new') {
+    if (matches && matches[2] == 'removed') {
       var count = parseInt(matches[1], 10);
-      document.title = 'Todos [' + (count++) + ' removed]';
+      document.title = 'Todos [' + (++count) + ' removed]';
     } else {
       document.title = 'Todos [1 removed]';
     }
