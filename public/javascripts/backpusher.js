@@ -12,6 +12,12 @@
       return new Backpusher(channel, collection, options);
     }
 
+    // Bind for the connection established, so
+    // we can setup the socket_id param.
+    channel.pusher.bind('pusher:connection_established', function() {
+      Backbone.pusher_socket_id = channel.pusher.socket_id;
+    });
+
     // Options is currently unused:
     this.options = (options || {});
     this.channel = channel;
@@ -68,6 +74,66 @@
         return this.collection.remove(model);
       }
     }
+  };
+
+  // Map from CRUD to HTTP for our default `Backbone.sync` implementation.
+  var methodMap = {
+    'create': 'POST',
+    'update': 'PUT',
+    'delete': 'DELETE',
+    'read'  : 'GET'
+  };
+
+  // Backpusher's Backbone.sync method:
+  // -------------
+  Backbone.sync = function(method, model, success, error) {
+    var type = methodMap[method];
+    var modelJSON = null;
+
+    if (method === 'create' || method === 'update') {
+      modelJSON = JSON.stringify(model.toJSON());
+    }
+
+    if (!(model && model.url)) {
+      throw new Error("A 'url' property or function must be specified");
+    }
+
+    var modelUrl = _.isFunction(model.url) ? model.url() : model.url;
+    modelUrl += '?socket_id=' + Backbone.pusher_socket_id;
+
+    // Default JSON-request options.
+    var params = {
+      url:          modelUrl,
+      type:         type,
+      contentType:  'application/json',
+      data:         modelJSON,
+      dataType:     'json',
+      processData:  false,
+      success:      success,
+      error:        error
+    };
+
+    // For older servers, emulate JSON by encoding the request into an HTML-form.
+    if (Backbone.emulateJSON) {
+      params.contentType = 'application/x-www-form-urlencoded';
+      params.processData = true;
+      params.data        = modelJSON ? {model : modelJSON} : {};
+    }
+
+    // For older servers, emulate HTTP by mimicking the HTTP method with `_method`
+    // And an `X-HTTP-Method-Override` header.
+    if (Backbone.emulateHTTP) {
+      if (type === 'PUT' || type === 'DELETE') {
+        if (Backbone.emulateJSON) params.data._method = type;
+        params.type = 'POST';
+        params.beforeSend = function(xhr) {
+          xhr.setRequestHeader("X-HTTP-Method-Override", type);
+        };
+      }
+    }
+
+    // Make the request.
+    $.ajax(params);
   };
 
   // Export:
