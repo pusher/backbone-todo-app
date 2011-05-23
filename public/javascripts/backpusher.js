@@ -39,7 +39,7 @@
     this.initialize(channel, collection, options);
   };
 
-  _.extend(Backpusher.prototype, {
+  _.extend(Backpusher.prototype, Backbone.Events, {
     initialize: function() {},
 
     _bindEvents: function() {
@@ -54,20 +54,27 @@
       var Collection = this.collection;
       model = new Collection.model(model);
 
-      return Collection.add(model);
+      Collection.add(model);
+      this.trigger('remote_create', model);
+
+      return model;
     }
   });
 
   Backpusher.defaultEvents = {
     created: function(pushed_model) {
-      return this._add(pushed_model)
+      return this._add(pushed_model);
     },
 
     updated: function(pushed_model) {
       var model = this.collection.get(pushed_model);
 
       if (model) {
-        return model.set(pushed_model);
+        model = model.set(pushed_model);
+
+        this.trigger('remote_update', model);
+
+        return model;
       } else {
         return this._add(pushed_model);
       }
@@ -77,7 +84,10 @@
       var model = this.collection.get(pushed_model);
 
       if (model) {
-        return this.collection.remove(model);
+        this.collection.remove(model);
+        this.trigger('remote_destroy', model);
+
+        return model;
       }
     }
   };

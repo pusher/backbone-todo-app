@@ -53,7 +53,7 @@
       return todo.get('id');
     },
 
-    // This method is overridden to save us messing around 
+    // This method is overridden to save us messing around
     // with socket_id filtering.
     add: function(models, options) {
       if (_.isArray(models)) {
@@ -215,9 +215,11 @@
     },
 
     showTooltip: function(e) {
+      document.title = "Todos";
+
       var tooltip = this.$('.ui-tooltip-top');
       var self = this;
-      
+
       if (this.tooltipTimeout) clearTimeout(this.tooltipTimeout);
 
       this.tooltipTimeout = _.delay(function() {
@@ -225,7 +227,7 @@
         self.tooltipTimeout = _.delay(self.hideTooltip, 2400);
       }, 400);
     },
-    
+
     hideTooltip: function() {
       var tooltip = this.$('.ui-tooltip-top');
       if (this.tooltipTimeout) clearTimeout(this.tooltipTimeout);
@@ -242,6 +244,55 @@
 
   var pusher = new Pusher('511a5abb7486107ce643');
   var channel = pusher.subscribe(window.app.list_channel);
-  
-  Backpusher(channel, app.Todos);
+
+  app.TodosBackpusher = new Backpusher(channel, app.Todos);
+
+
+  app.TodosBackpusher.bind('remote_create', function(model) {
+    var title = document.title;
+    var matches = title.match(/\[(\d+) (\w+)\]/);
+
+    if (matches && matches[2] == 'new') {
+      var count = parseInt(matches[2], 10);
+      document.title = 'Todos [' + (count++) + 'new]';
+    } else {
+      document.title = 'Todos [1 new]';
+    }
+  });
+
+  app.TodosBackpusher.bind('remote_update', function(model) {
+    var title = document.title;
+    var matches = title.match(/\[(\d+) (\w+)\]/);
+
+    if (matches && matches[2] == 'updated') {
+      var count = parseInt(matches[2], 10);
+      document.title = 'Todos [' + (count++) + ' update]';
+    } else {
+      document.title = 'Todos [1 updated]';
+    }
+  });
+
+  app.TodosBackpusher.bind('remote_destroy', function(model) {
+    var title = document.title;
+    var matches = title.match(/\[(\d+) (\w+)\]/);
+
+    if (matches && matches[2] == 'new') {
+      var count = parseInt(matches[2], 10);
+      document.title = 'Todos [' + (count++) + ' removed]';
+    } else {
+      document.title = 'Todos [1 removed]';
+    }
+  });
+
+  window.onfocus = function() {
+    setTimeout(function(){
+      document.title = 'Todos';
+    }, 500);
+  };
+
+  document.onfocusin = function() {
+    setTimeout(function(){
+      document.title = 'Todos';
+    }, 500);
+  }
 });
