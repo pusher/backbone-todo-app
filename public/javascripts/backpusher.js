@@ -14,9 +14,15 @@
 
     // Bind for the connection established, so
     // we can setup the socket_id param.
-    channel.pusher.bind('pusher:connection_established', function() {
-      Backbone.pusher_socket_id = channel.pusher.socket_id;
-    });
+    if (channel.pusher.connection)
+      channel.pusher.connection.bind('connected', function() {
+        Backbone.pusher_socket_id = channel.pusher.socket_id;
+      });
+    } else {
+      channel.pusher.bind('pusher:connection_established', function() {
+        Backbone.pusher_socket_id = channel.pusher.socket_id;
+      });
+    }
 
     // Options is currently unused:
     this.options = (options || {});
