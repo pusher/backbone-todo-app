@@ -289,12 +289,12 @@
   window.onfocus = function() {
     setTimeout(function(){
       document.title = 'Todos';
-    }, 500);
+    }, 2000);
   };
 
   document.onfocusin = function() {
     setTimeout(function(){
       document.title = 'Todos';
-    }, 500);
+    }, 2000);
   }
 });
