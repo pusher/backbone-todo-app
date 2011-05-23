@@ -2,7 +2,8 @@
 <html>
 <head>
   <title>Todos</title>
-  <%= stylesheet_link_tag :all %>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
+  <link rel="stylesheet" type="text/css" href="/stylesheets/todos.css" />
   <%= javascript_include_tag [
     'underscore.js',
     'jquery.js',
@@ -12,6 +13,8 @@
     'application.js'
   ] %>
   <%= csrf_meta_tag %>
+  <link rel="shortcut icon" href="favicon.png" />
+  <link rel="apple-touch-icon-precomposed" href="favicon.png" />
 </head>
 <body>
   <div id="todoapp">
