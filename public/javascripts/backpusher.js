@@ -100,40 +100,34 @@
     'read'  : 'GET'
   };
 
-  // Backpusher's Backbone.sync method:
-  // -------------
-  Backbone.sync = function(method, model, success, error) {
+  Backbone.sync = function(method, model, options) {
     var type = methodMap[method];
-    var modelJSON = null;
 
-    if (method === 'create' || method === 'update') {
-      modelJSON = JSON.stringify(model.toJSON());
-    }
+    // Default JSON-request options.
+    var params = _.extend({
+      type:         type,
+      dataType:     'json'
+    }, options);
 
     if (!(model && model.url)) {
       throw new Error("A 'url' property or function must be specified");
     }
 
-    var modelUrl = _.isFunction(model.url) ? model.url() : model.url;
-    modelUrl += '?socket_id=' + Backbone.pusher_socket_id;
+    if (!params.url) {
+      params.url = _.isFunction(model.url) ? model.url() : model.url;
+      params.url += '?socket_id=' + Backbone.pusher_socket_id;
+    }
 
-    // Default JSON-request options.
-    var params = {
-      url:          modelUrl,
-      type:         type,
-      contentType:  'application/json',
-      data:         modelJSON,
-      dataType:     'json',
-      processData:  false,
-      success:      success,
-      error:        error
-    };
+    // Ensure that we have the appropriate request data.
+    if (!params.data && model && (method == 'create' || method == 'update')) {
+      params.contentType = 'application/json';
+      params.data = JSON.stringify(model.toJSON());
+    }
 
     // For older servers, emulate JSON by encoding the request into an HTML-form.
     if (Backbone.emulateJSON) {
       params.contentType = 'application/x-www-form-urlencoded';
-      params.processData = true;
-      params.data        = modelJSON ? {model : modelJSON} : {};
+      params.data        = params.data ? {model : params.data} : {};
     }
 
     // For older servers, emulate HTTP by mimicking the HTTP method with `_method`
@@ -143,13 +137,18 @@
         if (Backbone.emulateJSON) params.data._method = type;
         params.type = 'POST';
         params.beforeSend = function(xhr) {
-          xhr.setRequestHeader("X-HTTP-Method-Override", type);
+          xhr.setRequestHeader('X-HTTP-Method-Override', type);
         };
       }
     }
 
+    // Don't process data on a non-GET request.
+    if (params.type !== 'GET' && !Backbone.emulateJSON) {
+      params.processData = false;
+    }
+
     // Make the request.
-    $.ajax(params);
+    return $.ajax(params);
   };
 
   // Export:
