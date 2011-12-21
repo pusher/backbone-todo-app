@@ -159,7 +159,7 @@
 
       app.Todos.bind('add', this.addOne);
       app.Todos.bind('remove', this.removeOne);
-      app.Todos.bind('refresh', this.addAll);
+      app.Todos.bind('reset', this.addAll);
       app.Todos.bind('all', this.render);
 
       app.Todos.fetch();
