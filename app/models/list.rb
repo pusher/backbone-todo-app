@@ -37,7 +37,7 @@ class List < ActiveRecord::Base
   private
 
   def create_token
-    self.token = strip_for_channel_name(ActiveSupport::SecureRandom.base64(8))
+    self.token = strip_for_channel_name(SecureRandom.base64(8))
   end
   
   def strip_for_channel_name(str)
