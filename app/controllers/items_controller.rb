@@ -11,7 +11,7 @@ class ItemsController < ApplicationController
       :isdone => params[:isdone]
     })
 
-    Pusher[@list.channel_name].trigger('created', item.attributes, params[:socket_id])
+    Pusher[@list.channel_name].trigger('created', item.attributes, request.headers["X-Pusher-Socket-ID"])
     render :json => item
   end
 
@@ -27,7 +27,7 @@ class ItemsController < ApplicationController
       :isdone => params[:isdone]
     })
 
-    Pusher[@list.channel_name].trigger('updated', item.attributes, params[:socket_id])
+    Pusher[@list.channel_name].trigger('updated', item.attributes, request.headers["X-Pusher-Socket-ID"])
 
     render :json => item
   end
@@ -35,7 +35,7 @@ class ItemsController < ApplicationController
   def destroy
     @list.items.find(params[:id]).destroy
 
-    Pusher[@list.channel_name].trigger('destroyed', {:id => params[:id]}, params[:socket_id])
+    Pusher[@list.channel_name].trigger('destroyed', {:id => params[:id]}, request.headers["X-Pusher-Socket-ID"])
 
     render :json => {}
   end
