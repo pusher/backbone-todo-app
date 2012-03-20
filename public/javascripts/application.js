@@ -252,8 +252,6 @@
     var title = document.title;
     var matches = title.match(/\[(\d+) (\w+)\]/);
 
-    console.log(matches);
-
     if (matches && matches[2] == 'new') {
       var count = parseInt(matches[1], 10);
       document.title = 'Todos [' + (++count) + ' new]';
