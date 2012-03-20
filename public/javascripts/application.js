@@ -52,23 +52,6 @@
     comparator: function(todo) {
       return todo.get('id');
     },
-
-    // This method is overridden to save us messing around
-    // with socket_id filtering.
-    add: function(models, options) {
-      if (_.isArray(models)) {
-        for (var i = 0, l = models.length; i < l; i++) {
-          if (models[i].id && !app.Todos.get(models[i].id)) {
-            this._add(models[i], options);
-          }
-        }
-      } else {
-        if (models.id && !app.Todos.get(models.id)) {
-          this._add(models, options);
-        }
-      }
-      return this;
-    }
   });
 
   app.Todos = new app.TodoList;
