@@ -28,27 +28,28 @@ GEM
       activemodel (= 3.0.7)
       activesupport (= 3.0.7)
     activesupport (3.0.7)
-    arel (2.0.9)
+    arel (2.0.10)
     builder (2.1.2)
-    crack (0.1.8)
     erubis (2.6.6)
       abstract (>= 1.0.0)
-    i18n (0.5.0)
-    json (1.5.1)
-    mail (2.2.19)
+    httpclient (2.5.3.3)
+    i18n (0.5.4)
+    json (1.8.1)
+    kgio (2.9.2)
+    mail (2.2.20)
       activesupport (>= 2.3.6)
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
-    mime-types (1.16)
+    mime-types (1.25.1)
+    multi_json (1.10.1)
     pg (0.17.1)
-    polyglot (0.3.1)
-    pusher (0.6.0)
-      crack
-      json
-      ruby-hmac
-      signature
-    rack (1.2.2)
+    polyglot (0.3.5)
+    pusher (0.14.2)
+      httpclient (~> 2.4)
+      multi_json (~> 1.0)
+      signature (~> 0.1.6)
+    rack (1.2.8)
     rack-mount (0.6.14)
       rack (>= 1.0.0)
     rack-test (0.5.7)
@@ -66,14 +67,18 @@ GEM
       activesupport (= 3.0.7)
       rake (>= 0.8.7)
       thor (~> 0.14.4)
-    rake (0.8.7)
-    ruby-hmac (0.4.0)
-    signature (0.1.2)
-      ruby-hmac
+    raindrops (0.13.0)
+    rake (10.4.2)
+    signature (0.1.7)
     thor (0.14.6)
-    treetop (1.4.9)
+    treetop (1.4.15)
+      polyglot
       polyglot (>= 0.3.1)
-    tzinfo (0.3.27)
+    tzinfo (0.3.42)
+    unicorn (4.8.3)
+      kgio (~> 2.6)
+      rack
+      raindrops (~> 0.7)
 
 PLATFORMS
   ruby
@@ -83,3 +88,4 @@ DEPENDENCIES
   pg
   pusher
   rails (= 3.0.7)
+  unicorn

@@ -20,9 +20,13 @@
     },
 
     toggle: function() {
-      this.save({
-        isdone: !this.get('isdone')
-      });
+      attrs = { 'isdone': !this.get('isdone'), 'shortdesc': this.get('shortdesc') }
+      options = {}
+
+      options.contentType = 'application/json';
+      options.data = JSON.stringify(attrs);
+
+      Backbone.Model.prototype.save.call(this, attrs, options);
     },
 
     clear: function() {
@@ -100,9 +104,13 @@
     },
 
     close: function() {
-      this.model.save({
-        shortdesc: this.edit_input.val(),
-      });
+      attrs = { 'isdone': this.model.get('isdone'), 'shortdesc': this.edit_input.val() }
+      options = {}
+
+      options.contentType = 'application/json';
+      options.data = JSON.stringify(attrs);
+
+      Backbone.Model.prototype.save.call(this.model, attrs, options);
       $(this.el).removeClass('editing');
     },
 

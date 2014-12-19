@@ -1,4 +1,5 @@
 source 'http://rubygems.org'
+ruby '2.1.5'
 
 gem 'rails', '3.0.7'
 
@@ -11,7 +12,7 @@ gem 'pusher'
 gem 'json'
 
 # Use unicorn as the web server
-# gem 'unicorn'
+gem 'unicorn'
 
 # Deploy with Capistrano
 # gem 'capistrano'
