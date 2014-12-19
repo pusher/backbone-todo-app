@@ -4,8 +4,4 @@
 require File.expand_path('../config/application', __FILE__)
 require 'rake'
 
-begin
-  Todos::Application.load_tasks
-rescue
-  require 'rdoc/task'
-end
+Todos::Application.load_tasks

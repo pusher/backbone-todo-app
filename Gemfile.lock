@@ -68,7 +68,7 @@ GEM
       rake (>= 0.8.7)
       thor (~> 0.14.4)
     raindrops (0.13.0)
-    rake (10.4.2)
+    rake (0.8.7)
     signature (0.1.7)
     thor (0.14.6)
     treetop (1.4.15)
@@ -88,4 +88,5 @@ DEPENDENCIES
   pg
   pusher
   rails (= 3.0.7)
+  rake (= 0.8.7)
   unicorn
